@@ -87,7 +87,7 @@ def findEllipses(vidPath, outPath):
     plt.close()
     circleCenter = findCircle(points)
     xdir = (points[0][0] - points[1][0], points[0][1] - points[1][1])
-    rotationAngle = np.arctan2(*xdir)
+    rotationAngle = np.arctan2(xdir[1], xdir[0])
 
 
     # Open the blurred video
@@ -143,8 +143,8 @@ def findEllipses(vidPath, outPath):
                             [np.sin(-rotationAngle), np.cos(-rotationAngle)]])
         newPos = np.dot(rotMat, (ellipse[0] - circleCenter))
         # The angle is at first the angle clockwise from the y-axis
-        # Convert to angle from new x-axis in the positive direction
-        newAngle = -ellipse[2] - rotationAngle*180/np.pi + 90
+        # Convert to angle from new y-axis in the positive direction
+        newAngle = -ellipse[2] - rotationAngle*180/np.pi
         ellipse = (newPos, ellipse[1], newAngle)
 
         # Save the ellipse to the list
@@ -173,7 +173,7 @@ if __name__ == "__main__":
 
     # Name of the video
     # Should NOT contain ".avi"
-    filename = "20210316_Ringdown_850mA-0000"
+    filename = "20210316_Ringdown_750mA_2021-03-16-190724-0000"
 
     # Find the ellipses
     ellipses = findEllipses(filename+".avi", "tmpFin.avi")
